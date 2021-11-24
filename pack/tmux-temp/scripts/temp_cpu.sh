@@ -13,7 +13,7 @@ print_cpu_temp() {
     local temp_pkg
     local temp_string
     temp=($(sensors | egrep '^Tdie:' | sed '/^\s*$/d' | awk '{printf("%f ", $2)}'))
-    temp_string="$temp_string $(printf "+%.0fºC" "$temp")"
+    temp_string="$temp_string $(printf "+%.0fº" "$temp")"
     if [ $(echo "$temp > 75.0" | bc) -eq 1 ]; then
     	echo "#[fg=#ff0040] $temp_string" | awk 'BEGIN{OFS=" "}$1=$1{print $0}'
     elif [ $(echo "$temp > 60.0" | bc) -eq 1 ]; then
@@ -28,7 +28,7 @@ print_cpu_temp() {
 
 main() {
   local units
-  units=$(get_tmux_option "@temp_units" "C")
+  units=$(get_tmux_option "@temp_units" "")
   print_cpu_temp "$units"
 }
 main
